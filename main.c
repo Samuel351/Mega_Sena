@@ -6,7 +6,7 @@
 void main()
 {
 	int val[6], sort[6], prim, seg, x, aux, count=0, count1=0, mega=0, z=0;
-	int matriz[5][6], aux[0][0];
+	int matriz[3][6], auxmatriz[1][1];
 	srand(time(NULL));//sorteia aleatoriamente sem repetir
 	//baseado no tempo
 	setlocale(LC_ALL,"");//inclui caracteres especial na impressão
@@ -63,7 +63,6 @@ void main()
 		count=0;//reinicia variavel que conta repetidos
 		goto novo;//faz retorno para nova verificação
 	}
-//	printf("\nSem repetição\n");
 
 //coloca em ordem crescente
 	for(prim=0;prim<5;prim++)
@@ -78,31 +77,40 @@ void main()
 			}
 		}
 	}
-/*	for(x=0;x<6;x++)
+	
+	// Imprime valores do vetor
+	/* for(x=0;x<6;x++)
 	{
 		printf(" %d ",sort[x]);
-	}*/
-	printf("\nSeu jogo:");
-	for
-	for(x=0;x<6;x++)
+	} */
+	
+	for(z = 0; z < 3; z++)
 	{
-		printf("\nO seu %dº valor do jogo:",x+1);
-		scanf("%d", &val[x]);
+		printf("\nJogo %dº", z);
+		
+		for(x=0;x<6;x++)
+		{
+			printf("\nO seu %dº valor do jogo:",x);
+			scanf("%d", &matriz[z][x]);
+		}
 	}
 	novojogo://label de retorno de verificação de repetidos
-	for(prim=0;prim<5;prim++)
+	for(z = 0; z < 3; z++)
 	{
-		for(seg=prim+1;seg<6;seg++)
+		for(prim=0;prim<5;prim++)
 		{
-			if(val[prim]==val[seg])
+			for(seg=prim+1;seg<6;seg++)
 			{
-				printf("\nVocê jogou número repetido!");
-				printf("\nJogue novamente a posição %d:",seg);
-				scanf("%d", &val[seg]);
-			}
-			else
-			{
-				count1++;
+				if(matriz[z][prim]==matriz[z][seg])
+				{
+					printf("\nVocê jogou número repetido!");
+					printf("\nJogue novamente a posição %d do %dº jogo:",seg, z);
+					scanf("%d", &matriz[z][seg]);
+				}
+				else
+				{
+					count1++;
+				}
 			}
 		}
 	}
@@ -111,56 +119,70 @@ void main()
 		count1=0;
 		goto novojogo;
 	}
-	//coloca em ordem
-	for(prim=0;prim<5;prim++)
+	
+	//coloca em ordem a matriz
+	for(z = 0; z < 3; z++)
 	{
-		for(seg=prim+1;seg<6;seg++)
+
+		for(prim=0;prim<5;prim++)
 		{
-			if(val[prim]>val[seg])
+			for(seg=prim+1;seg<6;seg++)
 			{
-				aux = val[prim];
-				val[prim]=val[seg];
-				val[seg]=aux;
+				if(matriz[z][prim]>matriz[z][seg])
+				{
+					auxmatriz[0][0] = matriz[z][prim];
+					matriz[z][prim]= matriz[z][seg];
+					matriz[z][seg]= auxmatriz[0][0];
+				}
 			}
-		}
+		} 
 	}
-/*	printf("\nJogado  Verificado.\n");
-	for(x=0;x<6;x++)
-	{
-		printf(" %d ",val[x]);
+     
+    // imprime matriz ordenada
+    /* for(z = 0; z < 3; z++)
+    {
+    	for(x = 0; x < 6; x++)
+    	{
+    		printf(" %d ", matriz[z][x]);
+		}
 	}*/
 	
 	//verifica quantos numeros vocÊ acertou na mega - bubble sort
-	for(z = 0; z < 5; z++)
-	{
-	
+    for(z = 0; z < 3; z++)
+    {
 		for(prim=0;prim<6;prim++)
 		{
 			for(seg=0;seg<6;seg++)
 			{
-				if(val[prim]==sort[seg])
+				if(matriz[z][prim]==sort[seg])
 				{
 					mega++;
 				}
 			}
-		}	
+		}
+			
+		if(mega==6)
+		{
+			printf("\nJogo %dº: ", z);
+			printf("\nParabéns você é um novo milionario!!!");
+		}
+		if(mega==5)
+		{
+			printf("\nJogo %dº: ", z);
+			printf("\nParabéns você acertou na quina!!!");
+		}
+		if(mega==4)
+		{
+			printf("\nJogo %dº: ", z);
+			printf("\nParabéns você acertou na quadra!!!");
+		}
+		if(mega<4)
+		{
+			printf("\nJogo %dº: ", z);
+			printf("\nVocê não ganhou, acertou %d numero(s)!!!",mega);
+		}
+		mega = 0;
 	}
 	
-	if(mega==6)
-	{
-		printf("\nParabéns você é um novo milionario!!!");
-	}
-	if(mega==5)
-	{
-		printf("\nParabéns você acertou na quina!!!");
-	}
-	if(mega==4)
-	{
-		printf("\nParabéns você acertou na quadra!!!");
-	}
-	if(mega<4)
-	{
-		printf("\nVocê não ganhou, acertou %d numero(s)!!!",mega);
-	}
 	getch();
 }
